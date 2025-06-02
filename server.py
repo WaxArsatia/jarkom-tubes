@@ -5,7 +5,7 @@ import os
 HOST = '127.0.0.1'
 PORT = 8080
 
-def handle_client(client_socket, client_address):
+def handle_client(client_socket: socket.socket, client_address):
     print(f"Connection from {client_address}")
     
     try:
@@ -34,13 +34,13 @@ def handle_client(client_socket, client_address):
             
             # Create HTTP response
             header = f"HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {len(content)}\r\n\r\n"
-            client_socket.send(header.encode() + content)
+            client_socket.sendall(header.encode() + content)
         else:
             # File not found - return 404
             not_found = "<html><body><h1>404 Not Found</h1></body></html>"
             header = f"HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\nContent-Length: {len(not_found)}\r\n\r\n"
-            client_socket.send(header.encode() + not_found.encode())
-    
+            client_socket.sendall(header.encode() + not_found.encode())
+
     except Exception as e:
         print(f"Error: {e}")
     finally:
