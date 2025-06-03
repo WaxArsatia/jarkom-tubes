@@ -33,12 +33,12 @@ def handle_client(client_socket: socket.socket, client_address):
                 content = file.read()
             
             # Create HTTP response
-            header = f"HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {len(content)}\r\n\r\n"
+            header = f"HTTP/1.1 200 OK\r\n\r\n"
             client_socket.sendall(header.encode() + content)
         else:
             # File not found as binary - return 404
-            not_found = b"<html><body><h1>404 Not Found</h1></body></html>"
-            header = f"HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\nContent-Length: {len(not_found)}\r\n\r\n"
+            not_found = b"File is not found."
+            header = f"HTTP/1.1 404 Not Found\r\n\r\n"
             client_socket.sendall(header.encode() + not_found)
 
     except Exception as e:
