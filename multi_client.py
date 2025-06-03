@@ -68,8 +68,7 @@ def main():
     start_time = time.time()
     
     for i in range(NUM_REQUESTS):
-        thread = threading.Thread(target=make_request, 
-                                 args=(server_host, server_port, filename, i))
+        thread = threading.Thread(target=make_request, args=(server_host, server_port, filename, i))
         threads.append(thread)
         thread.start()
     
