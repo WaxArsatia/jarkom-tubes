@@ -26,8 +26,8 @@ def handle_client(client_socket: socket.socket, client_address):
         # Remove leading slash
         file_path = path[1:]
         
-        # Check if file exists and has .html extension
-        if os.path.isfile(file_path) and file_path.endswith('.html'):
+        # Check if file exists
+        if os.path.isfile(file_path):
             # Read file content
             with open(file_path, 'rb') as file:
                 content = file.read()
@@ -36,10 +36,10 @@ def handle_client(client_socket: socket.socket, client_address):
             header = f"HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {len(content)}\r\n\r\n"
             client_socket.sendall(header.encode() + content)
         else:
-            # File not found - return 404
-            not_found = "<html><body><h1>404 Not Found</h1></body></html>"
+            # File not found as binary - return 404
+            not_found = b"<html><body><h1>404 Not Found</h1></body></html>"
             header = f"HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\nContent-Length: {len(not_found)}\r\n\r\n"
-            client_socket.sendall(header.encode() + not_found.encode())
+            client_socket.sendall(header.encode() + not_found)
 
     except Exception as e:
         print(f"Error: {e}")
